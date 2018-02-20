@@ -2,20 +2,23 @@ module CustomIndexBootstrapper
   module ControllerClassMethods
 
     def has_custom_index(config=[])
-      send(:include, ControllerInstanceMethods)
+      send(:include, InstanceMethods)
       @index_headers = config[:default_headers]
       before_action :set_default_headers, :only => [:index] + config.fetch(:additional_before_actions, [])
     end
 
-  end
+    module InstanceMethods
+      define_method "define_translation_base" do
+        @translation_base = 'invoicezzz'
+      end
 
-  module ControllerInstanceMethods
-    class_eval do     
       def set_default_headers
         resource_class = params[:controller].classify.constantize
         @default_headers = resource_class.new.default_fields_for_index
+        @translation_base = resource_class.new.translation_base
       end
     end
+
   end
 
 
@@ -34,11 +37,17 @@ module CustomIndexBootstrapper
       end
 
       define_method "default_fields_for_index" do |type=nil|
+        
         default_headers = config.fetch(:default_headers, [])
         if type.present?
           default_headers = config.fetch(:default_headers, {}).fetch(type.to_sym, default_headers)
         end
         default_headers
+      end
+
+      @translation_base = config.fetch(:translation_base, nil)
+      define_method "translation_base" do
+        @translation_base ||= self.class.name.downcase
       end
     end
 

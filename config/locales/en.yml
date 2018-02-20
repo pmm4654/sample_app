@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+
+  invoice:
+    amount: "Amount"
+    customer_name: "Customer Name"
+    title: "Title"
+    description: "Description"
