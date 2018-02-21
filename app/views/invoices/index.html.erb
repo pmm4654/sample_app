@@ -1,33 +1,6 @@
-<p id="notice"><%= notice %></p>
-<h1>Invoices</h1>
-<table>
-  <thead>
-    <tr>    
-    <% @default_headers.each do |field_name| %>
-      <td><%= I18n.t("#{@translation_base}.#{field_name}") %></td>
-    <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% @invoices.each do |invoice| %>
-      <tr>
-      <% @default_headers.each do |field_name| %>
-        <% if @index.respond_to?(field_name) %>
-          <td><%= invoice.send(field_name) %></td>
-        <% else %>
-          <td><%= invoice.index_display_value_for(field_name) %></td>
-        <% end %>
-      <% end %>
-        <td><%= link_to 'Show', invoice %></td>
-        <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
-        <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-    
-  </tbody>
+<%= render :partial => 'custom_index_templates/custom_table' %>
 
-</table>
+<%= yield(:custom_table) if content_for?(:custom_table) %>
 
-<%= content_for?(:title) ? yield(:title) : "The Shirt Compare" %>
 
 <%= link_to 'New Invoice', new_invoice_path %>

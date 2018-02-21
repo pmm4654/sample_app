@@ -1,7 +1,7 @@
 class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
   extend CustomIndexBootstrapper::ControllerClassMethods
-  has_custom_index :default_headers => [:amount, :customer_name, :title, :description]
+  has_custom_index :default_headers => [:amount, :customer_name, :title, :description], :translation_base => 'invoice'
 
   # GET /invoices
   # GET /invoices.json
