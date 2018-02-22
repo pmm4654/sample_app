@@ -1,5 +1,5 @@
 class Invoice < ApplicationRecord
-  extend CustomIndexBootstrapper::ModelClassMethods
+  extend CustomTables::Models::ClassMethods
 
   belongs_to :customer
   has_custom_index
